@@ -53,7 +53,7 @@ export class JoblyApi {
     return res.company;
   }
 
-/* Get All companies */
+/* Get All jobs */
   static async getJobs() {
     let res = await this.request(`jobs`);
     return res.companies;

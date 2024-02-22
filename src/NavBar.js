@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from 'react-router-dom';
 
 export const NavBar = () => {
+
     return ( 
       <div>
         <NavLink to="/"> <h4>Jobly</h4></NavLink>

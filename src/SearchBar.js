@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { JoblyApi } from "./Api";
 
-export const SearchBar = () => { 
+export const SearchBar = ({lookUpTerm}) => { 
     const Blankterm = "";
     const [term, setTerm] = useState(Blankterm);
     
@@ -9,9 +9,13 @@ export const SearchBar = () => {
         setTerm(e.target.value);  
     }
 
-    const handleSubmit = (e) => {
+ async function handleSubmit (e) {
         e.preventDefault();
-        
+        console.log("being submitted", term)
+     lookUpTerm(term);
+     console.log("get:", term);
+         setTerm(Blankterm);
+     
     }
 
     return ( 

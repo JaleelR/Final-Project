@@ -4,6 +4,7 @@ import { JoblyApi } from "./Api";
 import { JobCard } from "./jobCard";
 
 
+
 export const CompanyDetails = () => {
     const { handle } = useParams();
     const [company, setCompany] = useState({});
@@ -14,32 +15,40 @@ export const CompanyDetails = () => {
     useEffect(() => {
         async function getJob() {
             const JobList = await JoblyApi.getJobs();
+            console.log("_____________________________", JobList);
             setJobs([...JobList])
         }
        getJob();
     }, []);
 
-
-    async function Company() {
-        const companyData = await JoblyApi.getCompany(handle);
+    useEffect(() => { 
+        async function CompanyCall() { 
+            try {
+                 const companyData = await JoblyApi.getCompany(handle);
         setCompany(companyData);
-        setJobs([...companyData.jobs])
+        setJobs([...companyData.jobs])   
+            } catch (e) {
+               console.log("No company") 
+      }
+    
     }
-    Company();
+    CompanyCall(); 
+}, []);
+    
 
 
     return (
         <div>
-            {
-               
-
-                    Object.keys(company).length === 0 ?
-                   <div>  
+           
+            {Object.keys(company).length === 0 ?
+            <div>  
+                    {console.log("all jobs")} 
                         {jobs.map(job => <JobCard title={job.title} salary={job.salary} equity={job.equity} key={job.id} />)}
-                    </div> :
-                    <div>
+                    </div>
+                    :
 
-                    
+                    <div>
+                    {console.log("one company")}  {console.log("################", company)}
                 <p > { company.name }</p >
                     <p>{company.description}</p>
     {jobs.map(job => <JobCard title={job.title} salary={job.salary} equity={job.equity} key={job.id} />)

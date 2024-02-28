@@ -13,7 +13,7 @@ const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
 export class JoblyApi {
   // the token for interactive with the API will be stored here.
   static token;
-  static userInfo = { username: "", password:"", name:"", firstname:"", lastname:"", email:"" }
+  
 
   /* skeleton method for get calls  */
   static async request(endpoint, data = {}, method = "get") {
@@ -36,9 +36,27 @@ export class JoblyApi {
     }
   }
 
-
-
   // Individual API routes
+
+  /* Logs in a user */
+  static async login(username, password) {
+    let res = await this.request(`auth/token`, {username, password}, "post");
+    this.token = res.token;
+    return res;
+  }
+
+  /* registers a user */
+  static async signup(username, password, firstName, lastName, email) {
+    let res = await this.request(`auth/register`, { username, password, firstName, lastName, email }, "post");
+    this.token = res.token;
+    return res;
+  }; 
+  /* gets info on a user */
+  static async getUserInfo(username) {
+    let res = await this.request(`users/${username}`);
+    return res;
+  }; 
+
 
 /* Get All companies */
   static async getCompanies() {
@@ -53,13 +71,14 @@ export class JoblyApi {
     return res.company;
   }
 
+
 /* Get All jobs */
   static async getJobs() {
     let res = await this.request(`jobs`);
-    return res.companies;
+    return res.jobs;
   }
 
-  /** Get details on a company by handle. */
+  /** Get job by handle. */
 
   static async getJob(id) {
     let res = await this.request(`jobs/${id}`);
@@ -67,15 +86,12 @@ export class JoblyApi {
   }
 
 
-  static async login (username, password ) {
-    let res = await this.request(`token`, {username, password}, "post" );
-    return res;
-  }
-  
-  static async signup (username, password, name, firstname, lastname, email) {
-    let res = await this.request(`token`, { username, password, name, firstname, lastname, email }, "post" );
-    return res;
-  }
+
+ 
+  // static async signup (username, password, name, firstname, lastname, email) {
+  //   let res = await this.request(`token`, { username, password, name, firstname, lastname, email }, "post" );
+  //   return res;
+  // }
 
   static async updateUser(username) {
     let res = await this.request(`users/${username}`);
@@ -92,8 +108,6 @@ export class JoblyApi {
 }
 
 // for now, put token ("testuser" / "password" on class)
-JoblyApi.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZ" +
-    "SI6InRlc3R1c2VyIiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTU5ODE1OTI1OX0." +
-    "FtrMwBQwe6Ue-glIFgz_Nf8XxRT2YecFCiSpYL0fCXc";
+
 
     

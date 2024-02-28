@@ -1,8 +1,8 @@
 import React from "react";
-import {Switch, BrowserRouter, Route, Routes} from "react-router-dom";
+import {  Route, Routes} from "react-router-dom";
 import { Companies } from "./Companies";
 import {CompanyDetails} from "./CompanyDetails"
-import { Jobs } from "./Jobs";
+
 import { Signup } from "./Signup";
 import { Login } from "./Login";
 import {Profile} from "./Profile"
@@ -11,22 +11,20 @@ import { Home } from "./Home";
 
 
 
-
-
-export const RouteComponent = () => {
+export const RouteComponent = ({ register, login, logout }) => {
     return (
-        <BrowserRouter>
-                <NavBar />
+       <>
+                <NavBar logout={logout}/>
                 <Routes>
                     <Route exact path="/" element={<Home/>} />
                     <Route exact path="/companies" element={<Companies />} />
                     <Route exact path="/companies/:handle" element={<CompanyDetails />} />
-                    <Route exact path="/jobs" element={<Jobs />} />
-                    <Route exact path="/login" element={<Login />} />
-                    <Route exact path="/signup" element={<Signup />} />
+                    <Route exact path="/jobs" element={<CompanyDetails />} />
+                    <Route exact path="/login" element={<Login login={login} />} />
+                    <Route exact path="/signup" element={<Signup register={register}/>} />
                     <Route exact path="/profile" element={<Profile />} />
                 </Routes>
+       </>
        
-        </BrowserRouter>
     )
 }

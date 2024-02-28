@@ -38,27 +38,9 @@ export const Jobs = () => {
 
     return (
         <>
-            <h1>Companies</h1>
-            {console.log("ALL", companies)}
-            <SearchBar lookUpTerm={lookUpTerm} />
-            {Object.keys(companyTerm).length === 0 ?
-                <div>
-                    {companies.map(company =>
-                        <CompanyCard
-                            handle={company.handle}
-                            description={company.description}
-                            key={company.handle}
-                        />
-                    )}
-                </div>
-
-                :
-                <NavLink to={`/companies/${companyTerm.handle}`}>
-                    <CompanyCard handle={companyTerm.handle}
-                        description={companyTerm.description} />
-                </NavLink>
-
-            }
+            <h1>Jobs</h1>
+            
+        
 
         </>
     )

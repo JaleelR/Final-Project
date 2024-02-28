@@ -39,7 +39,6 @@ export const Companies = () => {
     return (
         <>
             <h1>Companies</h1>
-            {console.log("ALL", companies)}
             <SearchBar lookUpTerm={lookUpTerm}/>
             {Object.keys(companyTerm).length === 0 ?
                 <div>

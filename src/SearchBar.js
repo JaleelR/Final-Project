@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { JoblyApi } from "./Api";
+
 
 export const SearchBar = ({lookUpTerm}) => { 
     const Blankterm = "";

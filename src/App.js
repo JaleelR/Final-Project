@@ -10,6 +10,7 @@ import { useLocalStorage } from './useLocalStorage';
 export const TOKEN_STORAGE_ID = "jobly-token"
 
 function App() {
+  const [applied, setApplied] = useState(new Set());
   const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID);
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true); // Add loading state
@@ -28,6 +29,7 @@ console.log("userrrrnammmmeeee", username);
           
           console.log("userrrrrrrrrr", user);
           setCurrentUser(user);
+          setApplied(new Set(currentUser.user.applications));
           setLoading(false); // Set loading to false after user info is fetched
         } catch (e) {
           console.log("Error:", e);
@@ -71,6 +73,26 @@ console.log("userrrrnammmmeeee", username);
     console.log("Error:", e)
   }
   };
+
+  
+  function hasAppliedToJob(id) {
+    return applied.has(id);
+  }
+
+  async function apply(jobId) {
+    try {
+      console.log("MECNNCNEOMFI", currentUser.user.username )
+      const getJob = await JoblyApi.applyToJob(currentUser.user.username, jobId);
+      if (hasAppliedToJob(jobId)) {
+        return;
+      }
+      console.log("Applied", applied);
+      setApplied(new Set([...applied, jobId]))
+    }
+  catch (e) {
+    console.log("Error:", e)
+  }
+  };
   
 
   
@@ -85,7 +107,7 @@ console.log("userrrrnammmmeeee", username);
 
   return (
     <BrowserRouter>
-      <UserContext.Provider value={{ currentUser, setCurrentUser }}>
+      <UserContext.Provider value={{ currentUser, setCurrentUser, apply, hasAppliedToJob}}>
         <div className="App">
           <header className="App-header">
             {loading ? (

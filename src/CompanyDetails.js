@@ -48,8 +48,9 @@ export const CompanyDetails = () => {
             {Object.keys(company).length === 0 ?
             <div>  
                     {console.log("all jobs")} 
-                        {jobs.map(job => <JobCard title={job.title} salary={job.salary} equity={job.equity} key={job.id} />)}
-                    </div>
+                    {jobs.map(job => <JobCard title={job.title} salary={job.salary} equity={job.equity} key={job.id} id={job.id} />)}
+                </div>
+                
                     :
 
                     <div>

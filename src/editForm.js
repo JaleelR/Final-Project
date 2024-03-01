@@ -82,7 +82,7 @@ export const Profile = () => {
                 />
                 <br />
                 {update ? <p> updated successfully </p> :
-                    console.log("error")
+                 null
 
                 }
                 <button> Submit </button>

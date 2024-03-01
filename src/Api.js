@@ -88,8 +88,6 @@ export class JoblyApi {
   }
 
 
-
- 
   // static async signup (username, password, name, firstname, lastname, email) {
   //   let res = await this.request(`token`, { username, password, name, firstname, lastname, email }, "post" );
   //   return res;
@@ -98,6 +96,10 @@ export class JoblyApi {
   static async updateUser(username, data) {
     let res = await this.request(`users/${username}`, data, "patch");
     return res;
+  };
+
+  static async applyToJob(username, jobId) {
+ await this.request(`users/${username}/jobs/${jobId}`, {}, "post");
   };
 
 

@@ -4,39 +4,36 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { UserContext } from "./userContext";
 
 export const Profile = () => {
-    const { currentUser } = useContext(UserContext);
-    const navigate = useNavigate(register);  
-    const form = {
-        username: "",
-        password: "",
+     const form = {
         firstName: "",
         lastName: "",
         email: ""
     };
 
+    const { currentUser } = useContext(UserContext);
+    const [edit, setEdit] = useState(form);
+    const [update, setUpdate] = useState(null);
+    const navigate = useNavigate();  
+   
 
-    const [signup, setSignup] = useState(form);
     async function handleSubmit(e) {
         e.preventDefault();
-        register(signup.username, signup.password, signup.firstName, signup.lastName, signup.email);
-        navigate("/");
-
+        try {
+            await JoblyApi.updateUser(currentUser.user.username, edit);  
+            setUpdate(true);
+        }
+        catch (e) {
+            setUpdate(false);
+            console.error(e);
+        }
     }
-
-
-
-
-
-
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setSignup(prevState => ({
+        setEdit(prevState => ({
             ...prevState,
             [name]: value
         }));
-
-
     };
 
 
@@ -54,26 +51,18 @@ export const Profile = () => {
                 }
                 <label htmlFor="username"><b>Username</b></label>
                 <input
+                    readOnly
                     name="username"
-                    type="text"
-                    onChange={handleChange}
-                    value={signup.username}
+                    value={currentUser.user.username}
                 />
 
-                <label htmlFor="password"><b>Password</b></label>
-                <input
-                    name="password"
-                    type="text"
-                    onChange={handleChange}
-                    value={signup.password}
-                />
 
                 <label htmlFor="firstName"><b>First name</b></label>
                 <input
                     name="firstName"
                     type="text"
                     onChange={handleChange}
-                    value={signup.firstName}
+                    value={edit.firstName}
                 />
 
                 <label htmlFor="lastName"><b>Last name</b></label>
@@ -81,7 +70,7 @@ export const Profile = () => {
                     name="lastName"
                     type="text"
                     onChange={handleChange}
-                    value={signup.lastName}
+                    value={edit.lastName}
                 />
 
                 <label htmlFor="email"><b>Email</b></label>
@@ -89,10 +78,13 @@ export const Profile = () => {
                     name="email"
                     type="text"
                     onChange={handleChange}
-                    value={signup.email}
+                    value={edit.email}
                 />
-
                 <br />
+                {update ? <p> updated successfully </p> :
+                    console.log("error")
+
+                }
                 <button> Submit </button>
             </form>
 

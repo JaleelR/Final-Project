@@ -14,14 +14,14 @@ export const NavBar = ({ logout }) => {
 
   return ( 
       <div>
-      {currentUser ? 
+      {currentUser !== null ? 
         <>
           {console.log("Logged In:", currentUser)}
         <NavLink to="/"> <h4>Jobly</h4></NavLink>
       <NavLink to="/companies"> companies</NavLink>
       <NavLink to="/jobs"> Jobs </NavLink>
       <NavLink to="/profile"> Profile </NavLink>
-          <NavLink onClick={handleClick}> <h4>Logout { currentUser.user.username}</h4></NavLink>
+          <NavLink onClick={handleClick}> <h4>Logout { currentUser.user. username}</h4></NavLink>
         </>
         :
         <>

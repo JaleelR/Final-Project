@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { UserContext } from "./userContext";
 
 
-export const Login = ({login}) => {
+export const Login = ({login, setToken}) => {
     const navigate = useNavigate();
     const form = {
         username: "",

@@ -6,39 +6,48 @@ import { NavBar } from './NavBar';
 import { RouteComponent as Routes } from './RouteComponent';
 import { UserContext } from './userContext';
 import { jwtDecode } from "jwt-decode";
-
+import { useLocalStorage } from './useLocalStorage';
+export const TOKEN_STORAGE_ID = "jobly-token"
 
 function App() {
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID);
   const [currentUser, setCurrentUser] = useState(null);
-
+  const [loading, setLoading] = useState(true); // Add loading state
 
   useEffect(() => {
     async function getUser() {
       if (token) {
+        console.log("useEffecttoken", token)
         try {
           let { username } = jwtDecode(token);
-                 console.log("!!!!!!!", username);
-          JoblyApi.apiToken = token;
-          console.log("jobly.api Token:", JoblyApi.token )
+          JoblyApi.token = token;
+          //found error!
+console.log("userrrrnammmmeeee", username);
           let user = await JoblyApi.getUserInfo(username);
+        
+          
+          console.log("userrrrrrrrrr", user);
           setCurrentUser(user);
+          setLoading(false); // Set loading to false after user info is fetched
         } catch (e) {
-          console.log("Error:", e)
+          console.log("Error:", e);
+          setLoading(false); // Set loading to false in case of error
         }
-      } 
-    } 
+      } else {
+        setCurrentUser(null);
+        setLoading(false); // Set loading to false if token is not found
+      }
+    }
     getUser();
-  }, [token] )
-
+  }, [token]);
 
 
 
   async function register(username, password, firstName, lastName, email) {
     try {
       const gotToken = await JoblyApi.signup(username, password, firstName, lastName, email);
-      setToken(gotToken.token);
-      console.log(gotToken.token);
+      setToken(gotToken);
+      console.log(gotToken);
       console.log("Success!")
     } catch (e) {
       console.log("Error:", e)
@@ -56,7 +65,7 @@ function App() {
     try {
       const getToken = await JoblyApi.login(username, password);
      console.log("tokeeeen:", getToken)
-      setToken(getToken.token); // Log new token
+     setToken(getToken); 
     }
   catch (e) {
     console.log("Error:", e)
@@ -69,7 +78,6 @@ function App() {
     setToken("");
     setCurrentUser(null);
     console.log(token);
-    console.log("clicked");
   }
 
 
@@ -77,21 +85,18 @@ function App() {
 
   return (
     <BrowserRouter>
-      <UserContext.Provider 
-      value={{currentUser, setCurrentUser}}>
-
-     
-    <div className="App">
-      <header className="App-header"> 
-          <Routes register={register} login={login} logout={ logout} />
-        
-      
-        
-        
-      </header>
-      </div >
-       </UserContext.Provider>
-      </BrowserRouter>
+      <UserContext.Provider value={{ currentUser, setCurrentUser }}>
+        <div className="App">
+          <header className="App-header">
+            {loading ? (
+              <p>Loading...</p>
+            ) : (
+              <Routes register={register} login={login} logout={logout} />
+            )}
+          </header>
+        </div>
+      </UserContext.Provider>
+    </BrowserRouter>
   );
 }
 

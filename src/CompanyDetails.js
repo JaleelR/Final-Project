@@ -1,11 +1,13 @@
-import React, {useEffect, useState} from "react";
-import {useParams} from "react-router-dom"
+import React, {useEffect, useState, useContext} from "react";
+import {useParams, useNavigate} from "react-router-dom"
 import { JoblyApi } from "./Api";
 import { JobCard } from "./jobCard";
-
+import { UserContext } from "./userContext";
 
 
 export const CompanyDetails = () => {
+    const { currentUser } = useContext(UserContext);
+    const navigate = useNavigate();  
     const { handle } = useParams();
     const [company, setCompany] = useState({});
     const [jobs, setJobs] = useState([])
@@ -35,7 +37,10 @@ export const CompanyDetails = () => {
     CompanyCall(); 
 }, []);
     
-
+    if (!currentUser) {
+        navigate("/");
+        return null;
+    } 
 
     return (
         <div>

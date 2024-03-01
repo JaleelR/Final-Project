@@ -5,7 +5,7 @@ import {CompanyDetails} from "./CompanyDetails"
 
 import { Signup } from "./Signup";
 import { Login } from "./Login";
-import {Profile} from "./Profile"
+import {Profile} from "./editForm"
 import { NavBar } from "./NavBar";
 import { Home } from "./Home";
 

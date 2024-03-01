@@ -1,16 +1,17 @@
 
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect, useContext} from "react";
 import { CompanyCard } from "./CompanyCard";
 import { JoblyApi } from "./Api";
 import { CompanyDetails } from "./CompanyDetails";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate} from "react-router-dom";
 import { RouteComponent } from "./RouteComponent";
 import { SearchBar } from "./SearchBar";
-
+import { UserContext } from "./userContext";
 
 
 export const Jobs = () => {
-
+    const { currentUser } = useContext(UserContext);
+    const navigate = useNavigate();  
     const [companies, setCompanies] = useState([]);
     const [companyTerm, setCompanyTerm] = useState({});
     const [currentCompany, setCurrentCompany] = useState("");

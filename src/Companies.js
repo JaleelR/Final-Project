@@ -1,16 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { CompanyCard } from "./CompanyCard";
 import { JoblyApi } from "./Api";
-import { CompanyDetails } from "./CompanyDetails";
-import { NavLink } from "react-router-dom";
-import { RouteComponent } from "./RouteComponent";
+import { NavLink, useNavigate } from "react-router-dom";
 import { SearchBar } from "./SearchBar";
-
+import { UserContext } from "./userContext";
 
 
 export const Companies = () => {
-    const getElement  = useRef(null);
-   
+    const { currentUser } = useContext(UserContext);
+    const navigate = useNavigate();  
     const [companies, setCompanies] = useState([]);
     const [companyTerm, setCompanyTerm] = useState({});
     const [currentCompany, setCurrentCompany] = useState("");
@@ -36,7 +34,12 @@ export const Companies = () => {
         setCurrentCompany(currentCompany);
     }
 
+    if (!currentUser) {
+        navigate("/");
+        return null;
+    } 
     return (
+    
         <>
             <h1>Companies</h1>
             <SearchBar lookUpTerm={lookUpTerm}/>

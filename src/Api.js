@@ -23,6 +23,7 @@ export class JoblyApi {
     //this has been provided to show you another way to pass the token. you are only expected to read this code for this project.
     const url = `${BASE_URL}/${endpoint}`;
     const headers = { Authorization: `Bearer ${JoblyApi.token}` };
+    console.log("headers::::::", headers)
     const params = (method === "get")
         ? data
         : {};
@@ -42,14 +43,15 @@ export class JoblyApi {
   static async login(username, password) {
     let res = await this.request(`auth/token`, {username, password}, "post");
     this.token = res.token;
-    return res;
+    console.log("login token,", res.token)
+    return res.token;
   }
 
   /* registers a user */
   static async signup(username, password, firstName, lastName, email) {
     let res = await this.request(`auth/register`, { username, password, firstName, lastName, email }, "post");
     this.token = res.token;
-    return res;
+    return res.token;
   }; 
   /* gets info on a user */
   static async getUserInfo(username) {
@@ -93,10 +95,10 @@ export class JoblyApi {
   //   return res;
   // }
 
-  static async updateUser(username) {
-    let res = await this.request(`users/${username}`);
+  static async updateUser(username, data) {
+    let res = await this.request(`users/${username}`, data, "patch");
     return res;
-  }
+  };
 
 
 
